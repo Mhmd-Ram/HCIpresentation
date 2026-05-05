@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unveiling the Tricks: Dark Patterns Presentation</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Dark Slate */
+            color: #e2e8f0;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            height: 100vh;
+            width: 100vw;
+            padding: 2rem 4rem;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569; 
+            border-radius: 4px;
+        }
+
+        /* Diagram Boxes */
+        .diagram-box {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #475569;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Animation for current slide elements */
+        .slide.active h1, .slide.active p, .slide.active .grid {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation Controls -->
+    <div class="fixed bottom-6 right-6 flex gap-4 z-50">
+        <button onclick="prevSlide()" class="bg-slate-700 hover:bg-slate-600 text-white p-4 rounded-full shadow-lg transition-all active:scale-95" title="Previous Slide">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <span id="slide-counter" class="self-center font-mono text-slate-400 bg-slate-800/80 px-4 py-2 rounded-full border border-slate-700">1 / 10</span>
+        <button onclick="nextSlide()" class="bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-full shadow-lg transition-all active:scale-95" title="Next Slide">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active" id="slide-1">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="mb-6 inline-block">
+                <!-- Base64 Logo Placeholder -->
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSI2MCIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyKSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTUlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDAiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgYWxpZ25tZW50LWJhc2VsaW5lPSJjZW50cmFsIj5MSU1VPC90ZXh0PjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhciIgeDE9IjAiIHkxPSIwIiB4Mj0iMTIwIiB5Mj0iMTIwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iIzM4QkRGOCIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzgxOENGOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" alt="LIMU Logo" class="mx-auto">
+            </div>
+            <div class="mb-4">
+                <span class="px-4 py-1 rounded-full bg-blue-900/30 border border-blue-500/30 text-blue-400 text-sm font-semibold tracking-widest uppercase">
+                    Human Computer Interaction
+                </span>
+            </div>
+            <h1 class="text-6xl font-extrabold mb-6 leading-tight tracking-tight">
+                Unveiling the Tricks: <br>
+                <span class="gradient-text">Automated Detection of Dark Patterns</span><br>
+                in Mobile Applications
+            </h1>
+            <div class="text-xl text-slate-400 mb-12 max-w-3xl mx-auto">
+                Utilizing Computer Vision and Natural Language Processing to identify and mitigate malicious user interface designs.
+            </div>
+            
+            <div class="grid grid-cols-2 gap-8 text-left max-w-2xl mx-auto bg-slate-800/50 p-8 rounded-2xl border border-slate-700 shadow-2xl">
+                <div>
+                    <h3 class="text-white font-semibold mb-2 flex items-center gap-2"><i class="fas fa-users text-blue-400"></i> Authors</h3>
+                    <p class="text-slate-400 text-sm">Jieshan Chen, Jiamou Sun, Qinghua Lu, Xiwei Xu</p>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold mb-2 flex items-center gap-2"><i class="fas fa-university text-indigo-400"></i> Collaborators</h3>
+                    <p class="text-slate-400 text-sm">Sidong Feng (Monash), Zhenchang Xing (ANU)</p>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold mb-2 flex items-center gap-2"><i class="fas fa-calendar-alt text-slate-400"></i> Publication</h3>
+                    <p class="text-slate-400 text-sm">October 2023 | CSIRO's Data61</p>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold mb-2 flex items-center gap-2"><i class="fas fa-user-graduate text-green-400"></i> Presenter</h3>
+                    <p class="text-slate-400 text-sm">Mohamed Ramadan Ali Alwerfalli</p>
+                    <p class="text-slate-500 text-xs">Student ID: 5013</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: The Problem -->
+    <div class="slide" id="slide-2">
+        <div class="flex flex-col h-full justify-center max-w-7xl mx-auto w-full">
+            <h2 class="text-4xl font-bold mb-8 border-l-4 border-blue-500 pl-4">What are Dark Patterns?</h2>
+            
+            <div class="flex gap-12 items-center">
+                <div class="w-2/5 space-y-6">
+                    <blockquote class="text-3xl italic text-slate-300 font-light leading-relaxed border-l-2 border-slate-700 pl-6">
+                        “Tricks used in websites and apps that make you do things that you didn’t mean to, like buying or signing up for something.”
+                    </blockquote>
+                    <p class="text-right text-blue-400 font-bold text-sm">— Harry Brignull, User Experience Expert</p>
+                    
+                    <div class="mt-8 p-6 bg-red-900/20 border border-red-500/30 rounded-xl">
+                        <h3 class="text-xl font-bold text-red-400 mb-2 flex items-center gap-2"><i class="fas fa-exclamation-triangle"></i> 95% Prevalence</h3>
+                        <p class="text-slate-300">Analysis of 240 popular mobile apps revealed that nearly all utilize at least one dark pattern to manipulate users.</p>
+                    </div>
+                </div>
+
+                <!-- Visual Examples Grid -->
+                <div class="w-3/5 grid grid-cols-3 gap-6">
+                    <!-- Example 1 -->
+                    <div class="flex flex-col bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-lg">
+                        <div class="aspect-[9/16] bg-slate-900 rounded-lg overflow-hidden flex items-center justify-center border border-slate-700">
+                             <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjM1NSIgdmlld0JveD0iMCAwIDIwMCAzNTUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIzNTUiIGZpbGw9IiMwRjE3MkEiLz48cmVjdCB4PSIyMCIgeT0iMTQwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjgwIiByeD0iOCIgZmlsbD0iIzFFMjlNQiIgc3Ryb2tlPSIjMzg4RUYzIi8+PHRleHQgeD0iMTAwIiB5PSIxNzAiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5Db25maXJtIFN1YnNjcmlwdGlvbj88L3RleHQ+PHJlY3QgeD0iNDAiIHk9IjE5MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIyMCIgcng9IjEwIiBmaWxsPSIjMzg4RUYzIi8+PHRleHQgeD0iMTAwIiB5PSIyMDUiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSJib2xkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JRVMsIFNUQVJUIE5PVzwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjIyNSIgZmlsbD0iIzY0NzQ4QiIgZm9udC1zaXplPSI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5ObywgaSdtIG5vdCBzdXJlPC90ZXh0Pjwvc3ZnPg==" alt="False Hierarchy" class="w-full h-full object-cover">
+                        </div>
+                        <p class="text-center text-xs text-blue-400 mt-3 font-bold uppercase tracking-tighter">False Hierarchy</p>
+                    </div>
+
+                    <!-- Example 2 -->
+                    <div class="flex flex-col bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-lg">
+                        <div class="aspect-[9/16] bg-slate-900 rounded-lg overflow-hidden flex items-center justify-center border border-slate-700">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjM1NSIgdmlld0JveD0iMCAwIDIwMCAzNTUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIzNTUiIGZpbGw9IiMwRjE3MkEiLz48cmVjdCB4PSIxMCIgeT0iMTAwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjEwMCIgcng9IjQiIGZpbGw9IiMxRTI5TUIiLz48cmVjdCB4PSIyMCIgeT0iMTEwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjYwIiByeD0iMiIgZmlsbD0iIzMzNDE1NSIvPjx0ZXh0IHg9IjIwIiB5PSIxODAiIGZpbGw9IiM5NEEzQjgiIGZvbnQtc2l6ZT0iOCI+WW91ciBwaG9uZSBoYXMgMyB2aXJ1c2VzITwvdGV4dD48cmVjdCB4PSIxNDAiIHk9IjE3MCIgd2lkdGg9IjMwIiBoZWlnaHQ9IjEyIiByeD0iMiIgZmlsbD0iI0Y1OEUwQiIvPjx0ZXh0IHg9IjE1NSIgeT0iMTc5IiBmaWxsPSJibGFjayIgZm9udC1zaXplPSI2IiBmb250LXdlaWdodD0iYm9sZCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QUQ8L3RleHQ+PHJlY3QgeD0iMTAwIiB5PSIxODUiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxNCIgcng9IjciIGZpbGw9IiM0NzU1NjkiLz48dGV4dCB4PSIxNDAiIHk9IjE5NSIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q2xlYW4gTm93PC90ZXh0Pjwvc3ZnPg==" alt="Disguised Ad" class="w-full h-full object-cover">
+                        </div>
+                        <p class="text-center text-xs text-blue-400 mt-3 font-bold uppercase tracking-tighter">Disguised Ad</p>
+                    </div>
+
+                    <!-- Example 3 -->
+                    <div class="flex flex-col bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-lg">
+                        <div class="aspect-[9/16] bg-slate-900 rounded-lg overflow-hidden flex items-center justify-center border border-slate-700">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjM1NSIgdmlld0JveD0iMCAwIDIwMCAzNTUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIzNTUiIGZpbGw9IiMwRjE3MkEiLz48cmVjdCB4PSIyMCIgeT0iODAiIHdpZHRoPSIxNjAiIGhlaWdodD0iMTQwIiByeD0iNCIgZmlsbD0iIzFFMjlNQiIvPjx0ZXh0IHg9IjMwIiB5PSIxMDAiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjEwIj5TZXR0aW5nczwvdGV4dD48cmVjdCB4PSIzMCIgeT0iMTIwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjMwIiByeD0iNCIgZmlsbD0iIzMzNDE1NSIvPjx0ZXh0IHg9IjQwIiB5PSIxNDAiIGZpbGw9IiNFREU4RjAiIGZvbnQtc2l6ZT0iOCI+U2hhcmUgZGF0YSB3aXRoIHBhcnRuZXJzPC90ZXh0PjxyZWN0IHg9IjE1MCIgeT0iMTI4IiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHJ4PSIzIiBmaWxsPSIjMzg4RUYzIi8+PHBhdGggZD0iTTE1MiAxMzRMMTU1IDEzN0wxNjAgMTI5IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=" alt="Pre-selection" class="w-full h-full object-cover">
+                        </div>
+                        <p class="text-center text-xs text-blue-400 mt-3 font-bold uppercase tracking-tighter">Pre-selection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: Taxonomy -->
+    <div class="slide" id="slide-3">
+        <div class="max-w-6xl mx-auto w-full">
+            <h2 class="text-4xl font-bold mb-6">The Taxonomy of Tricks</h2>
+            <p class="text-xl text-slate-400 mb-8">Comprehensive categorization of dark patterns into 5 primary groups as proposed in the research.</p>
+
+            <div class="grid grid-cols-5 gap-4 h-96">
+                <!-- Col 1 -->
+                <div class="bg-slate-800 rounded-2xl p-6 border-t-4 border-yellow-500 flex flex-col shadow-lg transform transition hover:-translate-y-2">
+                    <div class="text-4xl mb-4 text-yellow-500"><i class="fas fa-bell"></i></div>
+                    <h3 class="font-bold text-lg mb-2 text-white">Nagging</h3>
+                    <p class="text-sm text-slate-400">Repeated tasks interrupting user flow.</p>
+                    <ul class="text-xs text-slate-500 mt-6 list-disc pl-4 space-y-2">
+                        <li>Pop-up Ads</li>
+                        <li>Forced Rate App</li>
+                        <li>Update Nags</li>
+                    </ul>
+                </div>
+                <!-- Col 2 -->
+                <div class="bg-slate-800 rounded-2xl p-6 border-t-4 border-red-500 flex flex-col shadow-lg transform transition hover:-translate-y-2">
+                    <div class="text-4xl mb-4 text-red-500"><i class="fas fa-road-barrier"></i></div>
+                    <h3 class="font-bold text-lg mb-2 text-white">Obstruction</h3>
+                    <p class="text-sm text-slate-400">Intentionally making processes harder.</p>
+                    <ul class="text-xs text-slate-500 mt-6 list-disc pl-4 space-y-2">
+                        <li>Roach Motel (Hard exit)</li>
+                        <li>Price Comparison Blocker</li>
+                    </ul>
+                </div>
+                <!-- Col 3 -->
+                <div class="bg-slate-800 rounded-2xl p-6 border-t-4 border-purple-500 flex flex-col shadow-lg transform transition hover:-translate-y-2">
+                    <div class="text-4xl mb-4 text-purple-500"><i class="fas fa-mask"></i></div>
+                    <h3 class="font-bold text-lg mb-2 text-white">Sneaking</h3>
+                    <p class="text-sm text-slate-400">Hiding or delaying critical info.</p>
+                    <ul class="text-xs text-slate-500 mt-6 list-disc pl-4 space-y-2">
+                        <li>Hidden Costs</li>
+                        <li>Sneak into Basket</li>
+                        <li>Forced Continuity</li>
+                    </ul>
+                </div>
+                <!-- Col 4 -->
+                <div class="bg-slate-800 rounded-2xl p-6 border-t-4 border-blue-500 flex flex-col shadow-lg transform transition hover:-translate-y-2">
+                    <div class="text-4xl mb-4 text-blue-500"><i class="fas fa-eye-slash"></i></div>
+                    <h3 class="font-bold text-lg mb-2 text-white">Interference</h3>
+                    <p class="text-sm text-slate-400">Visual manipulation of options.</p>
+                    <ul class="text-xs text-slate-500 mt-6 list-disc pl-4 space-y-2">
+                        <li>False Hierarchy</li>
+                        <li>Preselection</li>
+                        <li>Confirmshaming</li>
+                    </ul>
+                </div>
+                <!-- Col 5 -->
+                <div class="bg-slate-800 rounded-2xl p-6 border-t-4 border-green-500 flex flex-col shadow-lg transform transition hover:-translate-y-2">
+                    <div class="text-4xl mb-4 text-green-500"><i class="fas fa-hand-holding-dollar"></i></div>
+                    <h3 class="font-bold text-lg mb-2 text-white">Forced Action</h3>
+                    <p class="text-sm text-slate-400">Requiring action for core features.</p>
+                    <ul class="text-xs text-slate-500 mt-6 list-disc pl-4 space-y-2">
+                        <li>Privacy Zuckering</li>
+                        <li>Gamification loops</li>
+                        <li>Social Pyramid</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: Risks -->
+    <div class="slide" id="slide-4">
+        <div class="max-w-6xl mx-auto w-full flex gap-12">
+            <div class="w-1/2">
+                <h2 class="text-4xl font-bold mb-6">Why is this dangerous?</h2>
+                <div class="bg-slate-800 p-8 rounded-2xl border-l-4 border-yellow-500 mb-6 shadow-xl">
+                    <h3 class="text-xl font-bold text-white mb-4">Key Impacts</h3>
+                    <ul class="list-disc pl-5 space-y-6 text-slate-400 text-lg">
+                        <li><strong class="text-white">Financial Loss:</strong> Unintended subscriptions or hidden fees that are difficult to cancel.</li>
+                        <li><strong class="text-white">Privacy Leaks:</strong> Deceptive UI tricks users into over-sharing personal data with third parties.</li>
+                        <li><strong class="text-white">Autonomy Loss:</strong> Users lose the ability to make rational, informed choices due to cognitive overloads.</li>
+                    </ul>
+                </div>
+                <p class="text-slate-400 bg-slate-800/30 p-4 rounded-lg">
+                    Dark patterns leverage <span class="text-blue-400 font-bold">Multimodal deception</span>: they synchronize visual cues (color/size) and semantic text to confuse the user's decision-making process.
+                </p>
+            </div>
+
+            <div class="w-1/2 flex justify-center items-center">
+                <!-- Interactive CSS Mockup -->
+                <div class="bg-white text-black p-8 rounded-3xl shadow-2xl w-80 relative transform rotate-1">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-xl">System Shield</h3>
+                        <i class="fas fa-shield-alt text-blue-600"></i>
+                    </div>
+                    <p class="mb-8 text-sm text-gray-600">A potential threat was found. Would you like to clean your cache and secure your connection now?</p>
+                    
+                    <button class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl mb-3 shadow-lg hover:bg-blue-700 transition active:scale-95">
+                        Secure My Device (Free*)
+                    </button>
+                    <button class="w-full text-xs text-gray-400 hover:text-gray-600 py-2">
+                        No, leave my device vulnerable
+                    </button>
+                    
+                    <div class="absolute top-4 right-4 bg-yellow-400 text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">AD</div>
+                    
+                    <div class="mt-8 pt-4 border-t border-gray-100 text-[10px] text-gray-400 text-center leading-tight">
+                        <i class="fas fa-info-circle mr-1"></i> *Trial is free for 24 hours, followed by a $79.99/mo premium subscription billed annually.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: The Solution (UIGuard) -->
+    <div class="slide" id="slide-5">
+        <div class="max-w-6xl mx-auto w-full text-center">
+            <h2 class="text-5xl font-bold mb-4 gradient-text">Introducing UIGuard</h2>
+            <p class="text-xl text-slate-400 mb-12 max-w-2xl mx-auto">A knowledge-driven multimodal system that leverages Computer Vision and NLP to "audit" mobile applications.</p>
+
+            <div class="flex items-center justify-center gap-6">
+                
+                <!-- Input -->
+                <div class="diagram-box w-44 p-6 rounded-2xl flex flex-col items-center shadow-lg">
+                    <i class="fas fa-mobile-screen text-5xl text-blue-400 mb-4"></i>
+                    <span class="text-sm font-bold text-slate-300">Raw UI Screenshot</span>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-chevron-right text-slate-600 text-2xl mb-1"></i>
+                    <div class="h-12 w-0.5 bg-slate-800"></div>
+                </div>
+
+                <!-- The Core Engine -->
+                <div class="diagram-box w-[650px] p-8 rounded-3xl border-blue-500/50 border-2 relative overflow-hidden shadow-2xl bg-slate-900/80">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-blue-500"></div>
+                    <h3 class="text-2xl font-bold text-white mb-8 flex items-center justify-center gap-3">
+                        <i class="fas fa-brain text-blue-400"></i> UIGuard Intelligence Engine
+                    </h3>
+                    
+                    <div class="flex gap-6">
+                        <!-- Vision Module -->
+                        <div class="flex-1 bg-slate-800/80 p-5 rounded-xl border border-slate-700">
+                            <div class="text-blue-400 text-xs font-bold uppercase mb-3 tracking-widest">Vision (ResNet/R-CNN)</div>
+                            <ul class="text-sm text-left space-y-3 text-slate-300">
+                                <li class="flex items-center gap-2"><i class="fas fa-vector-square text-green-500 text-xs"></i> Widget Localization</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-palette text-green-500 text-xs"></i> Color Saliency Calc</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-shapes text-green-500 text-xs"></i> Icon Classification</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="self-center text-slate-500 font-bold text-2xl">+</div>
+
+                        <!-- NLP Module -->
+                        <div class="flex-1 bg-slate-800/80 p-5 rounded-xl border border-slate-700">
+                            <div class="text-purple-400 text-xs font-bold uppercase mb-3 tracking-widest">NLP (BERT/OCR)</div>
+                            <ul class="text-sm text-left space-y-3 text-slate-300">
+                                <li class="flex items-center gap-2"><i class="fas fa-font text-green-500 text-xs"></i> Semantic Analysis</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-quote-left text-green-500 text-xs"></i> Keyword Extraction</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-language text-green-500 text-xs"></i> Intent Recognition</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-chevron-right text-slate-600 text-2xl mb-1"></i>
+                    <div class="h-12 w-0.5 bg-slate-800"></div>
+                </div>
+
+                <!-- Output -->
+                <div class="diagram-box w-44 p-6 rounded-2xl flex flex-col items-center border-red-500/50 border shadow-xl">
+                    <i class="fas fa-shield-virus text-5xl text-red-500 mb-4"></i>
+                    <span class="text-sm font-bold text-red-400">Pattern Report</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: Methodology -->
+    <div class="slide" id="slide-6">
+        <div class="max-w-6xl mx-auto w-full grid grid-cols-2 gap-16">
+            <div>
+                <h2 class="text-4xl font-bold mb-8">Methodology: <br>Multimodal Synthesis</h2>
+                <div class="space-y-8">
+                    <div class="flex gap-5">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-blue-900/50 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-xl">1</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2">Property Extraction</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Uses Faster-RCNN for high-precision widget detection and PaddleOCR for textual content mapping.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-5">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-purple-900/50 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold text-xl">2</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2">Icon Understanding</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Custom ResNet-18 model trained to classify 81 semantic icon types (identifying deceptive Close buttons vs. decoys).</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-5">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-green-900/50 border border-green-500/30 flex items-center justify-center text-green-400 font-bold text-xl">3</div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2">Logic Checkers</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Heuristic rule-set developed by experts to identify patterns like "False Hierarchy" by comparing contrast ratios between buttons.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-900 p-8 rounded-3xl border border-slate-700 shadow-inner flex items-center justify-center">
+                <div class="font-mono text-xs w-full leading-loose">
+                    <div class="text-slate-500 mb-4 italic">// UIGuard Detection Algorithm Fragment</div>
+                    <div class="text-purple-400">function</div> <div class="inline text-blue-300">checkHierarchy</div>(ui_tree) {
+                    <div class="pl-6 text-slate-300"><span class="text-purple-400">const</span> buttons = ui_tree.filter(w => w.type === <span class="text-green-400">'BUTTON'</span>);</div>
+                    <div class="pl-6 text-slate-300"><span class="text-purple-400">if</span> (buttons.length === 2) {</div>
+                    <div class="pl-12 text-slate-400">// Calculate Saliency Score (Color + Size)</div>
+                    <div class="pl-12 text-slate-300"><span class="text-purple-400">const</span> diff = Math.abs(buttons[0].saliency - buttons[1].saliency);</div>
+                    <br>
+                    <div class="pl-12 text-purple-400">if</div> <div class="inline text-slate-300">(diff > THRESHOLD && isOppositeIntent(buttons)) {</div>
+                    <div class="pl-18 text-red-400 font-bold">return new DarkPattern('False Hierarchy');</div>
+                    <div class="pl-12 text-slate-300">}</div>
+                    <div class="pl-6 text-slate-300">}</div>
+                    <div class="text-slate-300">}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: Evaluation Results -->
+    <div class="slide" id="slide-7">
+        <div class="max-w-6xl mx-auto w-full">
+            <h2 class="text-4xl font-bold mb-10 text-center">Experimental Evaluation</h2>
+            
+            <div class="grid grid-cols-3 gap-8 mb-12">
+                <div class="bg-slate-800 p-8 rounded-3xl text-center border-t-4 border-blue-500 shadow-2xl transition hover:scale-105">
+                    <div class="text-6xl font-extrabold text-white mb-2">93%</div>
+                    <p class="text-slate-400 uppercase tracking-widest text-xs font-bold">Accuracy</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-3xl text-center border-t-4 border-green-500 shadow-2xl transition hover:scale-105">
+                    <div class="text-6xl font-extrabold text-white mb-2">82%</div>
+                    <p class="text-slate-400 uppercase tracking-widest text-xs font-bold">Precision</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-3xl text-center border-t-4 border-purple-500 shadow-2xl transition hover:scale-105">
+                    <div class="text-6xl font-extrabold text-white mb-2">77%</div>
+                    <p class="text-slate-400 uppercase tracking-widest text-xs font-bold">Recall</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/50 p-10 rounded-3xl border border-slate-700">
+                <h3 class="text-xl font-bold text-white mb-8 flex items-center gap-3">
+                    <i class="fas fa-chart-line text-blue-400"></i> Ablation Study: Multimodal Performance
+                </h3>
+                <div class="space-y-6">
+                    <div class="flex items-center">
+                        <div class="w-56 text-sm text-slate-400 font-medium">Text Only (BERT)</div>
+                        <div class="flex-1 bg-slate-700 h-8 rounded-full overflow-hidden">
+                            <div class="bg-slate-600 h-full w-[49%] flex items-center justify-end pr-4 text-xs font-bold text-white">49%</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-56 text-sm text-slate-400 font-medium">Text + Icons</div>
+                        <div class="flex-1 bg-slate-700 h-8 rounded-full overflow-hidden">
+                            <div class="bg-indigo-500 h-full w-[53%] flex items-center justify-end pr-4 text-xs font-bold text-white">53%</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-56 text-sm text-white font-bold tracking-tight">Full UIGuard (Multimodal)</div>
+                        <div class="flex-1 bg-slate-700 h-10 rounded-full overflow-hidden shadow-inner border border-blue-500/50">
+                            <div class="bg-blue-600 h-full w-[82%] flex items-center justify-end pr-4 text-sm font-bold text-white shadow-lg">82.3% F1-Score</div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-500 mt-8 italic text-center">
+                    Visual cues are essential; NLP alone cannot distinguish between a primary and secondary button if the labels are functionally similar.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: User Study -->
+    <div class="slide" id="slide-8">
+        <div class="max-w-6xl mx-auto w-full flex gap-12 items-center">
+            <div class="w-1/2">
+                <h2 class="text-4xl font-bold mb-6">User Empowerment Study</h2>
+                <p class="text-lg text-slate-300 mb-8 leading-relaxed">
+                    A controlled study involving <span class="font-bold text-white underline decoration-blue-500">58 participants</span> measured the effectiveness of AI-assisted protection.
+                </p>
+                
+                <div class="space-y-6">
+                    <div class="bg-red-900/20 p-6 rounded-2xl border-l-4 border-red-500 shadow-lg">
+                        <h4 class="text-red-400 font-bold mb-1 uppercase tracking-tight">Manual Inspection</h4>
+                        <p class="text-sm text-slate-300">Average users only identified <span class="text-white font-bold text-2xl">18.5%</span> of dark patterns in popular apps.</p>
+                    </div>
+                    
+                    <div class="bg-green-900/20 p-6 rounded-2xl border-l-4 border-green-500 shadow-lg">
+                        <h4 class="text-green-400 font-bold mb-1 uppercase tracking-tight">AI-Assisted (UIGuard)</h4>
+                        <p class="text-sm text-slate-300">Detection rate soared to <span class="text-white font-bold text-2xl">57.8%</span> with UIGuard's automated insights.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-1/2 bg-slate-800 rounded-3xl p-10 border border-slate-700 shadow-2xl flex flex-col">
+                <h3 class="text-white font-bold mb-8 text-center">Recognition Performance Jump</h3>
+                <div class="h-64 flex items-end justify-center gap-20 px-10">
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="w-16 bg-red-500/80 rounded-t-lg h-[20%] shadow-lg"></div>
+                        <span class="text-xs text-slate-400 font-bold">Control</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="w-16 bg-blue-500 rounded-t-lg h-[60%] shadow-lg relative">
+                            <div class="absolute -top-10 left-1/2 -translate-x-1/2 text-blue-400 font-bold text-xl">+212%</div>
+                        </div>
+                        <span class="text-xs text-white font-bold">UIGuard</span>
+                    </div>
+                </div>
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDQwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgOTBMMTAwIDg1TDIwMCA3MEwzMDAgMzBMMDQwMCAxMCIgc3Ryb2tlPSIjMzg4RUYzIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1kYXNoYXJyYXk9IjQgNCIvPjxjaXJjbGUgY3g9IjQwMCIgY3k9IjEwIiByPSI1IiBmaWxsPSIjMzg4RUYzIi8+PC9zdmc+" class="mt-4 opacity-50">
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: Real Detection Output -->
+    <div class="slide" id="slide-9">
+        <div class="max-w-6xl mx-auto w-full text-center">
+            <h2 class="text-4xl font-bold mb-4">UIGuard in Action</h2>
+            <p class="text-slate-400 mb-10">Sample analysis of a real-world deceptive interface</p>
+
+            <div class="flex justify-center gap-16 h-[500px] items-center">
+                <!-- Phone Frame -->
+                <div class="h-full border-[10px] border-slate-700 rounded-[3rem] overflow-hidden bg-black shadow-2xl relative w-72">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjg4IiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDI4OCA1MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjI4OCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMwRjE3MkEiLz48cmVjdCB4PSIyMCIgeT0iMTAwIiB3aWR0aD0iMjQ4IiBoZWlnaHQ9IjE2MCIgcng9IjEwIiBmaWxsPSIjMUUyOU1CIi8+PHRleHQgeD0iNDAiIHk9IjEzMCIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIj5Mb2dpbiBvcHRpb25zPC90ZXh0PjxyZWN0IHg9IjQwIiB5PSIxNjAiIHdpZHRoPSIyMDgiIGhlaWdodD0iNDAiIHJ4PSIyMCIgZmlsbD0iIzM4OEVGMyIvPjx0ZXh0IHg9IjE0NCIgeT0iMTg1IiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q29udGludWUgd2l0aCBGYWNlYm9vazwvdGV4dD48dGV4dCB4PSIxNDQiIHk9IjIyNSIgZmlsbD0iIzY0NzQ4QiIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UGxheSBhcyBHdWVzdDwvdGV4dD48cmVjdCB4PSIzNSIgeT0iMTU1IiB3aWR0aD0iMjE4IiBoZWlnaHQ9IjUwIiByeD0iNCIgc3Ryb2tlPSIjRUY0NDQ0IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI5MCIgeT0iMjE1IiB3aWR0aD0iMTEwIiBoZWlnaHQ9IjE1IiByeD0iNCIgc3Ryb2tlPSIjRUY0NDQ0IiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=" alt="Detection Demo" class="w-full h-full object-cover">
+                    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 px-4 py-1 bg-red-600 text-white text-[10px] font-bold rounded-full animate-pulse shadow-lg">
+                        DETECTED: FALSE HIERARCHY
+                    </div>
+                </div>
+
+                <div class="w-[500px] text-left">
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <i class="fas fa-terminal text-blue-400"></i> Audit Report Trace
+                    </h3>
+                    <div class="bg-slate-900/80 p-8 rounded-3xl border border-slate-700 shadow-xl space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-red-900/40 flex flex-shrink-0 items-center justify-center text-red-500 border border-red-500/30">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-100 mb-1">Visual Inconsistency Found</h4>
+                                <p class="text-sm text-slate-400">Target element (Button 1) has 4.5x higher luminance than destructive option (Text 1).</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-blue-900/40 flex flex-shrink-0 items-center justify-center text-blue-500 border border-blue-500/30">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-100 mb-1">Intent Mismatch</h4>
+                                <p class="text-sm text-slate-400">Labels "Continue" and "Guest" represent conflicting paths with biased visual weight.</p>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-slate-800">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-slate-500">Confidence Score:</span>
+                                <span class="text-green-500 font-bold">98.2%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: Conclusion -->
+    <div class="slide" id="slide-10">
+        <div class="max-w-4xl mx-auto w-full text-center">
+            <h2 class="text-5xl font-bold mb-10 gradient-text">Conclusions & Future</h2>
+            
+            <div class="grid grid-cols-2 gap-8 mb-16 text-left">
+                <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700 hover:border-blue-500 transition shadow-xl group">
+                    <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-3">
+                        <i class="fas fa-shield-alt text-blue-400"></i> Scalability
+                    </h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">AI can audit thousands of apps simultaneously, providing protections that manual review never could.</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700 hover:border-blue-500 transition shadow-xl group">
+                    <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-3">
+                        <i class="fas fa-eye text-green-400"></i> Vision is Key
+                    </h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Pure NLP systems are blind to visual manipulation; multimodal AI is the only robust defense.</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700 hover:border-blue-500 transition shadow-xl group">
+                    <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-3">
+                        <i class="fas fa-graduation-cap text-purple-400"></i> Education
+                    </h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Tools like UIGuard don't just protect—they teach users to recognize and avoid deceptive UX patterns.</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700 hover:border-blue-500 transition shadow-xl group">
+                    <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-3">
+                        <i class="fas fa-magic text-yellow-400"></i> Healing UIs
+                    </h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Future work focuses on "Self-Healing" UIs that automatically redesign malicious layouts in real-time.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-center justify-center gap-10">
+                <div class="bg-slate-800/80 p-10 rounded-[3rem] border border-slate-700 shadow-2xl flex gap-12">
+                    <div class="flex flex-col items-center">
+                        <span class="text-slate-500 text-xs font-bold mb-3 tracking-widest uppercase">Research Paper</span>
+                        <div class="w-32 h-32 bg-white rounded-2xl p-2 shadow-inner">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iMTAiIHk9IjEwIiB3aWR0aD0iMTA4IiBoZWlnaHQ9IjEwOCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSIyMCIgeT0iMjAiIHdpZHRoPSI4OCIgaGVpZ2h0PSI4OCIgZmlsbD0id2hpdGUiLz48cmVjdCB4PSIyNSIgeT0iMjUiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSI3MyIgeT0iMjUiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSIyNSIgeT0iNzMiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSI3MyIgeT0iNzMiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgZmlsbD0iYmxhY2siLz48L3N2Zz4=" alt="QR Code 1" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center border-l border-slate-700 pl-12">
+                        <span class="text-slate-500 text-xs font-bold mb-3 tracking-widest uppercase">Project GitHub</span>
+                        <div class="w-32 h-32 bg-white rounded-2xl p-2 shadow-inner">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIGZpbGw9IndoaXRlIi8+PHJlY3QgeD0iMTAiIHk9IjEwIiB3aWR0aD0iMTA4IiBoZWlnaHQ9IjEwOCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSIyMCIgeT0iMjAiIHdpZHRoPSI4OCIgaGVpZ2h0PSI4OCIgZmlsbD0id2hpdGUiLz48cmVjdCB4PSIyNSIgeT0iMjUiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSI3MyIgeT0iMjUiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSIyNSIgeT0iNzMiIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSI4MCIgeT0iODAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSI5MCIgeT0iOTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgZmlsbD0iYmxhY2siLz48L3N2Zz4=" alt="QR Code 2" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                </div>
+                <h3 class="text-2xl text-slate-300 font-light">Thank you for your attention.</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 10;
+        const counter = document.getElementById('slide-counter');
+
+        function updateSlide() {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(s => {
+                s.classList.remove('active');
+            });
+            // Show current
+            const targetSlide = document.getElementById(`slide-${currentSlide}`);
+            if (targetSlide) {
+                targetSlide.classList.add('active');
+                // Update counter
+                counter.innerText = `${currentSlide} / ${totalSlides}`;
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'Enter') {
+                e.preventDefault();
+                nextSlide();
+            }
+            if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Touch gestures (simple)
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        function checkDirection() {
+          if (touchendX < touchstartX - 50) nextSlide();
+          if (touchendX > touchstartX + 50) prevSlide();
+        }
+
+        document.addEventListener('touchstart', e => {
+          touchstartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+          touchendX = e.changedTouches[0].screenX;
+          checkDirection();
+        });
+    </script>
+</body>
+</html>
